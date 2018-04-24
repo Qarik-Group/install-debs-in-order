@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -18,6 +19,7 @@ func checkDebian() {
 
 func main() {
 	checkDebian()
+	ctx := context.Background()
 
 	targetPath := os.Args[1]
 
@@ -29,6 +31,14 @@ func main() {
 	for _, file := range targetPathFiles {
 		if filepath.Ext(file.Name()) == ".deb" {
 			fmt.Println(file.Name())
+
+			fullpath := filepath.Join(targetPath, file.Name())
+			out, err := exec.CommandContext(ctx, "dpkg-deb", "-f", fullpath, "Depends").Output()
+			if err != nil {
+				fmt.Printf("Run failed: %s\n", err)
+			} else {
+				fmt.Printf("Output: %s\n", string(out))
+			}
 		}
 	}
 
