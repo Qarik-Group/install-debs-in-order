@@ -1,13 +1,14 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
+
+	"github.com/starkandwayne/install-debs-in-order/debpkg"
 )
 
 func checkDebian() {
@@ -19,7 +20,6 @@ func checkDebian() {
 
 func main() {
 	checkDebian()
-	ctx := context.Background()
 
 	targetPath := os.Args[1]
 
@@ -30,15 +30,14 @@ func main() {
 	}
 	for _, file := range targetPathFiles {
 		if filepath.Ext(file.Name()) == ".deb" {
-			fmt.Println(file.Name())
-
 			fullpath := filepath.Join(targetPath, file.Name())
-			out, err := exec.CommandContext(ctx, "dpkg-deb", "-f", fullpath, "Depends").Output()
+			debpkg, err := debpkg.NewDebianPackageFromFile(fullpath)
 			if err != nil {
-				fmt.Printf("Run failed: %s\n", err)
+				fmt.Printf("Failed to lookup package %s: %s\n", file.Name(), err)
 			} else {
-				fmt.Printf("Output: %s\n", string(out))
+				fmt.Printf("%#v\n", debpkg)
 			}
+
 		}
 	}
 
