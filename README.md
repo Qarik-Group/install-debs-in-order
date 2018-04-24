@@ -19,7 +19,8 @@ Later, run `./install-debs.sh` to install the packages.
 ```plain
 docker run -ti \
     -v $PWD:/go/src/github.com/starkandwayne/install-debs-in-order \
-    golang:1 bash
+    -v $PWD:/app golang:1 \
+    /app/bin/install-and-run /app/fixtures/debs/archives
 ```
 
 Inside the container:

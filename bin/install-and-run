@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# It is assumed this script is run within a Docker container:
+# docker run -ti \
+#     -v $PWD:/go/src/github.com/starkandwayne/install-debs-in-order \
+#     -v $PWD:/app golang:1 \
+#     /app/bin/install-and-run /app/fixtures/debs/archives
+
+go install github.com/starkandwayne/install-debs-in-order
+install-debs-in-order "$@"
