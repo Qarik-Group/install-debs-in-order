@@ -25,7 +25,8 @@ docker run -ti \
 Inside the container:
 
 ```plain
-go run github.com/starkandwayne/install-debs-in-order
+go test github.com/starkandwayne/install-debs-in-order
+go install github.com/starkandwayne/install-debs-in-order
 install-debs-in-order
 ```
 
@@ -33,4 +34,27 @@ install-debs-in-order
 
 ```plain
 go get github.com/starkandwayne/install-debs-in-order
+```
+
+## Fetch a fixture package
+
+```plain
+docker run -ti -v $PWD/fixtures/debs:/debs golang:1
+```
+
+Inside the container:
+
+```plain
+apt-get update
+apt-get install -o debug::nolocking=true -o dir::cache=/debs \
+    tree
+```
+
+The `tree_1.7.0-5_amd64.deb` file will be placed in `/debs/archives/tree_1.7.0-5_amd64.deb`, which maps to `fixtures/debs/archives/tree_1.7.0-5_amd64.deb` in this project.
+
+To see the list of dependencies:
+
+```plain
+# dpkg-deb -f archives/tree*.deb Depends
+libc6 (>= 2.14)
 ```
