@@ -14,6 +14,21 @@ install-debs-in-order path/to/many/debs > install-debs.sh
 
 Later, run `./install-debs.sh` to install the packages.
 
+## Run inside Ubuntu Docker container
+
+```plain
+docker run -ti \
+    -v $PWD:/go/src/github.com/starkandwayne/install-debs-in-order \
+    golang:1 bash
+```
+
+Inside the container:
+
+```plain
+go run github.com/starkandwayne/install-debs-in-order
+install-debs-in-order
+```
+
 ## Install from source
 
 ```plain
