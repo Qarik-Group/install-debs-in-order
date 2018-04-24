@@ -14,6 +14,12 @@ install-debs-in-order path/to/many/debs > install-debs.sh
 
 Later, run `./install-debs.sh` to install the packages.
 
+## Run tests inside Ubuntu Docker container
+
+```plain
+bin/test
+```
+
 ## Run inside Ubuntu Docker container
 
 ```plain

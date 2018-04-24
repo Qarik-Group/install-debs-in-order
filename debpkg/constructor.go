@@ -2,6 +2,7 @@ package debpkg
 
 import (
 	"context"
+	"os"
 	"os/exec"
 	"path/filepath"
 	"regexp"
@@ -31,21 +32,26 @@ func NewDebianPackageFromFile(filePath string) (pkg *DebianPackage, err error) {
 		FilePath: filePath,
 		FileName: filepath.Base(filePath),
 	}
+
+	if _, err := os.Stat(filePath); os.IsNotExist(err) {
+		return pkg, err
+	}
+
 	out, err := exec.CommandContext(ctx, "dpkg-deb", "-f", filePath, "Depends").Output()
 	if err != nil {
-		return nil, err
+		return pkg, err
 	}
 	pkg.RawDepends = strings.TrimSpace(string(out))
 
 	out, err = exec.CommandContext(ctx, "dpkg-deb", "-f", filePath, "Package").Output()
 	if err != nil {
-		return nil, err
+		return pkg, err
 	}
 	pkg.PackageName = strings.TrimSpace(string(out))
 
 	out, err = exec.CommandContext(ctx, "dpkg-deb", "-f", filePath, "Version").Output()
 	if err != nil {
-		return nil, err
+		return pkg, err
 	}
 	pkg.RawVersion = strings.TrimSpace(string(out))
 
