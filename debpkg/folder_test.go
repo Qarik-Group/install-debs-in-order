@@ -24,7 +24,8 @@ func TestNewDebianPackagesFromFolder(t *testing.T) {
 }
 
 func TestRemovePreinstalledPackages(t *testing.T) {
-	folder, err := NewDebianPackagesFromFolder("/app/fixtures/debs/archives/")
+	archives, _ := filepath.Abs("../fixtures/debs/archives/")
+	folder, err := NewDebianPackagesFromFolder(archives)
 	if err != nil {
 		t.Error("Should not have error, got: ", err)
 	}
