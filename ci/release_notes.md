@@ -1,0 +1,1 @@
+* Support packages with no dependencies
