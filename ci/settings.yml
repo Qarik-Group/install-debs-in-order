@@ -1,0 +1,35 @@
+---
+meta:
+  name:    install-debs-in-order
+  target:  ohio-sw
+  url:     https://ci2.starkandwayne.com
+
+  initial_version: 1.0.0
+
+  go:
+    version: "1.10"
+    binary: install-debs-in-order
+    cmd_module: .
+
+  git:
+    email:  ((git-commit-email))
+    name:   ((git-commit-name))
+
+  aws:
+    bucket:      (( grab meta.pipeline ))
+    region_name: us-east-1
+    access_key:  ((aws-access-key))
+    secret_key:  ((aws-secret-key))
+
+  github:
+    owner:  starkandwayne
+    repo:   install-debs-in-order
+    branch: master
+    private_key:  ((github-private-key))
+    access_token: ((github-access-token))
+
+  slack:
+    webhook:       unknown
+    username:      ((slack-username))
+    icon:          ((slack-icon-url))
+    channel:       "#install-debs-in-order"
