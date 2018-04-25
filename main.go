@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"path/filepath"
 
 	"github.com/starkandwayne/install-debs-in-order/debpkg"
 )
@@ -21,7 +22,6 @@ func main() {
 
 	targetPath := os.Args[1]
 
-	fmt.Println("Looking for files", targetPath)
 	folder, err := debpkg.NewDebianPackagesFromFolder(targetPath)
 	if err != nil {
 		log.Fatal(err)
@@ -29,6 +29,6 @@ func main() {
 	folder.RemovePreinstalledPackages()
 	installList := folder.OrderedInstallationList()
 	for _, pkg := range installList {
-		fmt.Printf("%s\n", pkg.PackageName)
+		fmt.Printf("dpkg -i %s\n", filepath.Join(targetPath, pkg.FileName))
 	}
 }
