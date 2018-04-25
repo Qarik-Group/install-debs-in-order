@@ -265,6 +265,7 @@ jobs:
               STATIC_BINARY:  (( grab meta.go.force_static_binary ))
               GIT_EMAIL:      (( grab meta.git.email ))
               GIT_NAME:       (( grab meta.git.name ))
+              TARGETS:        linux/amd64
         - name: version
           put: version
           params: { bump: final }
