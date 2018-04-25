@@ -52,11 +52,9 @@ func (folder *DebianPackagesFolder) loadPackagesFromFiles() (err error) {
 func (folder *DebianPackagesFolder) RemovePreinstalledPackages() {
 	for _, deb := range folder.Packages {
 		for _, dependency := range deb.Depends {
-			// fmt.Println("Checking:", deb.PackageName, "->", dependency.PackageName)
-			deb.InternalDepends = []DebianPackageDependency{}
 			if _, ok := folder.PackageNameToFileNames[dependency.PackageName]; ok {
 				pkgDependency := DebianPackageDependency{PackageName: dependency.PackageName}
-				deb.InternalDepends = append(deb.InternalDepends, pkgDependency)
+				deb.UninstalledDependencies = append(deb.UninstalledDependencies, pkgDependency)
 			}
 		}
 	}

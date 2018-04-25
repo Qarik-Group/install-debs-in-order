@@ -33,12 +33,12 @@ func TestRemovePreinstalledPackages(t *testing.T) {
 	folder.RemovePreinstalledPackages()
 
 	treePackage := folder.FileNamesToPackages["tree_1.7.0-5_amd64.deb"]
-	if len(treePackage.InternalDepends) != 0 {
-		t.Error("Expected tree package to have no internal dependencies, got", treePackage.InternalDepends)
+	if len(treePackage.UninstalledDependencies) != 0 {
+		t.Error("Expected tree package to have no internal dependencies, got", treePackage.UninstalledDependencies)
 	}
 
 	dbusPackage := folder.FileNamesToPackages["dbus_1.10.26-0+deb9u1_amd64.deb"]
-	if len(dbusPackage.InternalDepends) != 2 {
-		t.Error("Expected dbus package to have 2 internal dependencies, got", treePackage.InternalDepends)
+	if len(dbusPackage.UninstalledDependencies) != 2 {
+		t.Error("Expected dbus package to have 2 internal dependencies, got", treePackage.UninstalledDependencies)
 	}
 }
