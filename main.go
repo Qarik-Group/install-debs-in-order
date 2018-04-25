@@ -26,10 +26,9 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Printf("%#v\n", folder)
 	folder.RemovePreinstalledPackages()
-	fmt.Printf("%#v\n", folder)
-	for _, pkg := range folder.Packages {
-		fmt.Printf("%#v\n", pkg)
+	installList := folder.OrderedInstallationList()
+	for _, pkg := range installList {
+		fmt.Printf("%s\n", pkg.PackageName)
 	}
 }
