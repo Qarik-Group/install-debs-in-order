@@ -61,11 +61,13 @@ func NewDebianPackageFromFile(filePath string) (pkg *DebianPackage, err error) {
 }
 
 func (pkg *DebianPackage) processDepends() {
-	re, _ := regexp.Compile(`^([^\s]+)(?:\s*\((.*)\))?`)
+	re, _ := regexp.Compile(`^([^\s:]+)`)
 	rawDependencies := strings.Split(pkg.RawDepends, ", ")
 	pkg.Depends = make([]DebianPackageDependency, len(rawDependencies))
 	for i, dependencyStr := range rawDependencies {
 		matches := re.FindAllStringSubmatch(dependencyStr, -1)
-		pkg.Depends[i].PackageName = matches[0][1]
+		if len(matches) > 0 {
+			pkg.Depends[i].PackageName = matches[0][1]
+		}
 	}
 }
