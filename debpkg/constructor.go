@@ -11,12 +11,13 @@ import (
 
 // DebianPackage describes some metadata of a .deb package via dpkg-deb
 type DebianPackage struct {
-	PackageName string
-	FileName    string
-	FilePath    string
-	RawVersion  string
-	RawDepends  string
-	Depends     []DebianPackageDependency
+	PackageName     string
+	FileName        string
+	FilePath        string
+	RawVersion      string
+	RawDepends      string
+	Depends         []DebianPackageDependency
+	InternalDepends []DebianPackageDependency
 }
 
 // DebianPackageDependency describes a named dependency of a DebianPackage
