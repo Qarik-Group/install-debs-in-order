@@ -40,6 +40,13 @@ func (folder *DebianPackagesFolder) addPackagesWithNoUninstalledDependencies(
 			remainingPkg.UninstalledDependencies = newDependsList
 		}
 	}
+	if len(newRemainingPackages) == len(remainingPackages) {
+		for _, pkg := range newRemainingPackages {
+			pkg.IgnoreDependencies = pkg.UninstalledDependencies
+			newOrderedPackages = append(newOrderedPackages, pkg)
+		}
+		return newOrderedPackages
+	}
 
 	return folder.addPackagesWithNoUninstalledDependencies(newOrderedPackages, newRemainingPackages)
 }

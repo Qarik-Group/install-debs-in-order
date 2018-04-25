@@ -44,7 +44,18 @@ func main() {
 	}
 	folder.RemovePreinstalledPackages()
 	installList := folder.OrderedInstallationList()
+	reinstallList := []*debpkg.DebianPackage{}
 	for _, pkg := range installList {
+		ignoredeps := ""
+		for _, ignoreme := range pkg.UninstalledDependencies {
+			ignoredeps = fmt.Sprintf("%s --ignore-depends %s ", ignoredeps, ignoreme.PackageName)
+		}
+		if ignoredeps != "" {
+			reinstallList = append(reinstallList, pkg)
+		}
+		fmt.Printf("dpkg -i %s%s\n", ignoredeps, filepath.Join(targetPath, pkg.FileName))
+	}
+	for _, pkg := range reinstallList {
 		fmt.Printf("dpkg -i %s\n", filepath.Join(targetPath, pkg.FileName))
 	}
 }

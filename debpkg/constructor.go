@@ -18,6 +18,7 @@ type DebianPackage struct {
 	RawDepends              string
 	Depends                 []DebianPackageDependency
 	UninstalledDependencies []DebianPackageDependency
+	IgnoreDependencies      []DebianPackageDependency
 }
 
 // DebianPackageDependency describes a named dependency of a DebianPackage
