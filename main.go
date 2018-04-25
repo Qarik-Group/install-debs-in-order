@@ -10,6 +10,8 @@ import (
 	"github.com/starkandwayne/install-debs-in-order/debpkg"
 )
 
+var Version = ""
+
 func checkDebian() {
 	_, err := exec.LookPath("dpkg-deb")
 	if err != nil {
@@ -17,7 +19,21 @@ func checkDebian() {
 	}
 }
 
+func showVersion() {
+	if len(os.Args) > 1 {
+		if os.Args[1] == "-v" || os.Args[1] == "--version" {
+			if Version == "" {
+				fmt.Printf("install-debs-in-order (development)\n")
+			} else {
+				fmt.Printf("install-debs-in-order v%s\n", Version)
+			}
+			os.Exit(0)
+		}
+	}
+}
+
 func main() {
+	showVersion()
 	checkDebian()
 
 	targetPath := os.Args[1]
