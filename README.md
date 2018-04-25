@@ -47,7 +47,7 @@ go get github.com/starkandwayne/install-debs-in-order
 ## Fetch a fixture package
 
 ```plain
-docker run -ti -v $PWD/fixtures/debs:/debs golang:1
+docker run -ti -v $PWD/fixtures/debs:/debs golang:1 bash
 ```
 
 Inside the container:
