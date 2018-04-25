@@ -1,9 +1,13 @@
 package debpkg
 
-import "testing"
+import (
+	"path/filepath"
+	"testing"
+)
 
 func TestNewDebianPackageFromFile_tree(t *testing.T) {
-	deb, err := NewDebianPackageFromFile("/app/fixtures/debs/archives/tree_1.7.0-5_amd64.deb")
+	archives, _ := filepath.Abs("../fixtures/debs/archives/")
+	deb, err := NewDebianPackageFromFile(filepath.Join(archives, "tree_1.7.0-5_amd64.deb"))
 	if err != nil {
 		t.Error("Should not have error, got: ", err)
 	}
@@ -22,7 +26,8 @@ func TestNewDebianPackageFromFile_tree(t *testing.T) {
 }
 
 func TestNewDebianPackageFromFile_dbus(t *testing.T) {
-	deb, err := NewDebianPackageFromFile("/app/fixtures/debs/archives/dbus_1.10.26-0+deb9u1_amd64.deb")
+	archives, _ := filepath.Abs("../fixtures/debs/archives/")
+	deb, err := NewDebianPackageFromFile(filepath.Join(archives, "dbus_1.10.26-0+deb9u1_amd64.deb"))
 	if err != nil {
 		t.Error("Should not have error, got: ", err)
 	}
