@@ -6,14 +6,49 @@ This CLI creates a shell script to be used later to correctly install the folder
 
 It is assumed that this CLI is being run in a Debian/Ubuntu environment with access to the `dpkg-deb` command to inspect `.deb` files for metadata.
 
-Either run the CLI and cache the output to a script to be run later:
+## Usage
+
+You can fetch Debian packages and store the `*.deb` files in a specific folder:
 
 ```plain
-install-debs-in-order path/to/many/debs > install-debs.sh
+apt-get install -y -d -o debug::nolocking=true \
+    -o dir::cache=path/to/many/debs \
+    package1 package2
 ```
 
-Later, run `./install-debs.sh` to install the packages.
+The two packages `package1` and `package2` might have nested dependency Debian packages. Later, when you want to install the packages, you need to install them in reverse order so `package1` and `package2` are installed last.
 
+You can either:
+
+```plain
+. <(install-debs-in-order path/to/many/debs)
+```
+
+Or, after caching the files with `apt-get install -o dir::cache`, you can create a script for the next person to use to install the packages:
+
+```plain
+cd path/to/many/debs
+install-debs-in-order . > install-packages.sh
+```
+
+Later, someone can install the packages with that script:
+
+```plain
+cd path/to/whereever/the/debs/are/now
+. install-packages.sh
+```
+
+## Installation
+
+The `install-debs-in-order` CLI can be installed via Debian:
+
+```plain
+wget -q -O - https://raw.githubusercontent.com/starkandwayne/homebrew-cf/master/public.key | apt-key add -
+echo "deb http://apt.starkandwayne.com stable main" | tee /etc/apt/sources.list.d/starkandwayne.list
+apt-get update
+
+apt-get install install-debs-in-order
+```
 
 ## Run tests inside Ubuntu Docker container
 
